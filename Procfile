@@ -1,2 +1,2 @@
-web: gunicorn data_dashboard.wsgi --log-file
+web: gunicorn data_dashboard.wsgi
 
