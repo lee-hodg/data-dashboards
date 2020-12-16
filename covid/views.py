@@ -1,4 +1,7 @@
 from django.shortcuts import render
+from .data_utils import return_figures, return_historical_figures
+import json
+import plotly
 
 # Create your views here.
 
@@ -10,5 +13,38 @@ def index(request):
     :param request:
     :return:
     """
-    ctx_data = {'ids': ['0', '1', '2', '3', '4', '5']}
+
+    figures = return_figures()
+
+    # plot ids for the html id tag
+    ids = [f'figure-{i}' for i, _ in enumerate(figures)]
+
+    # Convert the plotly figures to JSON for javascript in html template
+    figures_json = json.dumps(figures, cls=plotly.utils.PlotlyJSONEncoder)
+
+    ctx_data = {'ids': ids,
+                'figuresJSON': figures_json}
+
     return render(request, 'covid/index.html', ctx_data)
+
+
+def history(request):
+    """
+    The history page
+
+    :param request:
+    :return:
+    """
+
+    figures = return_historical_figures()
+
+    # plot ids for the html id tag
+    ids = [f'figure-{i}' for i, _ in enumerate(figures)]
+
+    # Convert the plotly figures to JSON for javascript in html template
+    figures_json = json.dumps(figures, cls=plotly.utils.PlotlyJSONEncoder)
+
+    ctx_data = {'ids': ids,
+                'figuresJSON': figures_json}
+
+    return render(request, 'covid/history.html', ctx_data)
