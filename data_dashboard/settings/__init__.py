@@ -11,6 +11,7 @@ Environment selection is done in .environment.ENVIRONMENT (environment.py).
 
 #import __builtin__
 import sys
+import django_heroku
 from .base import *
 from . import environment
 
@@ -19,3 +20,7 @@ env_name = os.environ.get('DJANGO_RUNTIME_ENVIRONMENT', environment.ENVIRONMENT)
 
 __imported_module = __import__('%s' % env_name, globals(), locals(), ['*'], level)
 locals().update(__imported_module.__dict__)
+
+
+# Activate Django-Heroku.
+django_heroku.settings(locals())
