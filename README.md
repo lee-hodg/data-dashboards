@@ -107,3 +107,54 @@ python manage.py shell_plus
 # Bootstrap
 
 In this project we use [django-bootstrap](https://django-bootstrap4.readthedocs.io/en/latest/quickstart.html)
+
+# Deploying on Heroku
+
+The project uses [whitenoise](http://whitenoise.evans.io/en/stable/) for self-serving on static files
+This involved adding the package with Poetry and then adding to the Django Middleware
+
+```python
+MIDDLEWARE = [
+  # 'django.middleware.security.SecurityMiddleware',
+  'whitenoise.middleware.WhiteNoiseMiddleware',
+  # ...
+]
+
+We also use the [django-heroku](https://github.com/heroku/django-heroku) to care of a bunch
+of things like `ALLOWED_HOSTS` and static files settings.
+
+```
+Create the app on Heroku
+
+```bash
+heroku create
+```
+
+Set some environment variables
+
+```bash
+heroku config:set DJANGO_SECRET_KEY="XXXX"
+heroku config:set DJANGO_RUNTIME_ENVIRONMENT="production"
+```
+
+Now deploy with
+
+```bash
+git push heroku master
+```
+
+## Provision memcached
+
+```bash
+heroku addons:create memcachier:dev
+```
+
+Then add the `CACHES` code from the [heroku docs](https://devcenter.heroku.com/articles/django-memcache)
+
+Followed by
+
+```bash
+sudo apt-get install libmemcached-dev
+poetry add pylibmc==1.5.2
+poetry export -f requirements.txt > requirements.txt --without-hashes
+```

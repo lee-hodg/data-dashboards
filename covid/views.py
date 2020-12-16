@@ -1,11 +1,14 @@
 from django.shortcuts import render
 from .data_utils import return_figures, return_historical_figures
+from django.views.decorators.cache import cache_page
+
 import json
 import plotly
 
 # Create your views here.
 
 
+@cache_page(60 * 60)
 def index(request):
     """
     The index page
@@ -28,6 +31,7 @@ def index(request):
     return render(request, 'covid/index.html', ctx_data)
 
 
+@cache_page(60 * 60)
 def history(request):
     """
     The history page
