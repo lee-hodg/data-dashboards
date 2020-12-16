@@ -10,5 +10,5 @@ def index(request):
     :param request:
     :return:
     """
-    ctx_data = {}
+    ctx_data = {'ids': ['0', '1', '2', '3', '4', '5']}
     return render(request, 'covid/index.html', ctx_data)

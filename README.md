@@ -104,3 +104,6 @@ python manage.py runserver_plus
 python manage.py shell_plus
 ```
 
+# Bootstrap
+
+In this project we use [django-bootstrap](https://django-bootstrap4.readthedocs.io/en/latest/quickstart.html)
